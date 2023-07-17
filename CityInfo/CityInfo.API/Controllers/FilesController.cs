@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace CityInfo.API.Controllers;
 
@@ -6,6 +7,15 @@ namespace CityInfo.API.Controllers;
 [Route("/api/files")]
 public class FilesController : ControllerBase
 {
+    private readonly FileExtensionContentTypeProvider _fileExtensionContentTypeProvider;
+
+    public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
+    {
+        _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider
+            ?? throw new System.ArgumentNullException(
+                nameof(fileExtensionContentTypeProvider));
+    }
+
     [HttpGet("{fileId}")]
     public ActionResult GetFile(int fileId)
     {
@@ -18,9 +28,16 @@ public class FilesController : ControllerBase
             return NotFound();
         }
 
+        if (!_fileExtensionContentTypeProvider.TryGetContentType(
+                filePath, out var contentType))
+        {
+            // Setting it to a default media type for arbitrary binary data.
+            contentType = "application/octet-stream";
+        }
+
         var bytes = System.IO.File.ReadAllBytes(filePath);
         
         // When this method is called, you automatically download the file
-        return File(bytes, "text/plain", Path.GetFileName(filePath));
+        return File(bytes, contentType, Path.GetFileName(filePath));
     }
 }
