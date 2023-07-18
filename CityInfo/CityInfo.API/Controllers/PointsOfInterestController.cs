@@ -51,6 +51,13 @@ public class PointsOfInterestController : ControllerBase
         int cityId,
         PointOfInterestForCreationDto pointOfInterestForCreationDto)
     {
+        // This property will be false if an invalid value is passed or a required field is missing.
+        // The [ApiController] annotation does this automatically, so the check isn't really needed.
+        // if (!ModelState.IsValid)
+        // {
+        //     return BadRequest();
+        // }
+        
         var city = CitiesDataStore.Current.Cities.FirstOrDefault(
             city => city.Id == cityId);
         if (city == null)
