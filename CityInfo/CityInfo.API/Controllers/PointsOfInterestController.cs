@@ -72,6 +72,10 @@ public class PointsOfInterestController : ControllerBase
         };
         city.PointsOfInterest.Add(finalPointOfInterest);
 
+        // Returns 201 Created status code with the newly created point in the response body
+        // In the response, there's a Location Header whose value is the location of the point of interest:
+        // https://localhost:44348/api/cities/3/points-of-interest/13
+        // routeName is GetPointOfInterest so that location is sent with the routeValues as params
         return CreatedAtRoute("GetPointOfInterest", 
             new
             {
