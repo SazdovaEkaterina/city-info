@@ -22,7 +22,7 @@ public class PointsOfInterestController : ControllerBase
     }
 
     // Mapping /api/cities/{cityId}/points-of-interest/{pointOfInterestId}
-    [HttpGet("{pointOfInterestId}")]
+    [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
     public ActionResult<PointOfInterestDto> GetPointOfInterest(int cityId, int pointOfInterestId)
     {
         var city = CitiesDataStore.Current.Cities
@@ -70,7 +70,14 @@ public class PointsOfInterestController : ControllerBase
             Name = pointOfInterestForCreationDto.Name,
             Description = pointOfInterestForCreationDto.Description
         };
+        city.PointsOfInterest.Add(finalPointOfInterest);
 
-        return finalPointOfInterest;
+        return CreatedAtRoute("GetPointOfInterest", 
+            new
+            {
+                cityId = cityId,
+                pointOfInterestId = finalPointOfInterest.Id
+            },
+            finalPointOfInterest);
     }
 }
