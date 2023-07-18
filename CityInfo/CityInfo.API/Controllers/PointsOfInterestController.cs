@@ -59,6 +59,7 @@ public class PointsOfInterestController : ControllerBase
         }
 
         // For demo purposes, it will be changed.
+        // In a real app, this would slow down performance & might generate two identical IDs if two users make a request at the same time.
         // It finds the max ID of the current points of interest.
         var maxPointOfInterestId = CitiesDataStore.Current.Cities.SelectMany(
             city => city.PointsOfInterest).Max(point => point.Id);
