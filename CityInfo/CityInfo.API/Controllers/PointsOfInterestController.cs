@@ -91,4 +91,32 @@ public class PointsOfInterestController : ControllerBase
             },
             finalPointOfInterest);
     }
+
+    [HttpPut("{pointOfInterestId}")]
+    public ActionResult UpdatePointOfInterest(
+        int cityId,
+        int pointOfInterestId,
+        PointOfInterestForUpdateDto pointOfInterestForUpdateDto)
+    {
+        var city = CitiesDataStore.Current.Cities.FirstOrDefault(
+            city => city.Id == cityId);
+        
+        if (city == null)
+        {
+            return NotFound();
+        }
+        
+        var pointOfInterest = city.PointsOfInterest
+            .FirstOrDefault(pointOfInterest => pointOfInterest.Id == pointOfInterestId);
+
+        if (pointOfInterest == null)
+        {
+            return NotFound();
+        }
+
+        pointOfInterest.Name = pointOfInterestForUpdateDto.Name;
+        pointOfInterest.Description = pointOfInterestForUpdateDto.Description;
+
+        return NoContent();
+    }
 }
