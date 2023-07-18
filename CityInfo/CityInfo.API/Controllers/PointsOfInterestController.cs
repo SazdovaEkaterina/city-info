@@ -43,4 +43,33 @@ public class PointsOfInterestController : ControllerBase
 
         return Ok(pointOfInterest);
     }
+
+    [HttpPost]
+    // Returning the created point of interest as a result.
+    // The object being sent is [FromBody] by default so no need to specify.
+    public ActionResult<PointOfInterestDto> CreatePointOfInterest(
+        int cityId,
+        PointOfInterestForCreationDto pointOfInterestForCreationDto)
+    {
+        var city = CitiesDataStore.Current.Cities.FirstOrDefault(
+            city => city.Id == cityId);
+        if (city == null)
+        {
+            return NotFound();
+        }
+
+        // For demo purposes, it will be changed.
+        // It finds the max ID of the current points of interest.
+        var maxPointOfInterestId = CitiesDataStore.Current.Cities.SelectMany(
+            city => city.PointsOfInterest).Max(point => point.Id);
+
+        var finalPointOfInterest = new PointOfInterestDto()
+        {
+            Id = ++maxPointOfInterestId,
+            Name = pointOfInterestForCreationDto.Name,
+            Description = pointOfInterestForCreationDto.Description
+        };
+
+        return finalPointOfInterest;
+    }
 }
