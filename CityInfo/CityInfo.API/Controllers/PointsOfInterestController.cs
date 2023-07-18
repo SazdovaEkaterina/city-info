@@ -154,6 +154,11 @@ public class PointsOfInterestController : ControllerBase
             return BadRequest();
         }
 
+        if (!TryValidateModel(pointOfInterestToPatch))
+        {
+            return BadRequest(ModelState);
+        }
+
         pointOfInterest.Name = pointOfInterestToPatch.Name;
         pointOfInterest.Description = pointOfInterestToPatch.Description;
 
