@@ -41,7 +41,8 @@ builder.Services.AddTransient<IMailService, CloudMailService>();
 builder.Services.AddSingleton<CitiesDataStore>();
 
 builder.Services.AddDbContext<CityInfoContext>(
-    dbContestOptions => dbContestOptions.UseSqlite("Data Source=CityInfo.db"));
+    dbContestOptions => dbContestOptions.UseSqlite(
+        builder.Configuration["ConnectionStrings:CityInfoDBConnectionString"]));
 
 var app = builder.Build();
 
