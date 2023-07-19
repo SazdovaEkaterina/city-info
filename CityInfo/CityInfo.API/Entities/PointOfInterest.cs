@@ -13,6 +13,9 @@ public class PointOfInterest
     [MaxLength(50)]
     public string Name { get; set; } = string.Empty;
     
+    [MaxLength(200)]
+    public string Description { get; set; }
+    
     // Navigation property => a relationship is created by convention, so annotation is optional.
     [ForeignKey("CityId")]
     public City? City { get; set; }
