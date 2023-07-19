@@ -11,13 +11,16 @@ public class PointsOfInterestController : ControllerBase
 {
     private readonly ILogger<PointsOfInterestController> _logger;
     private readonly IMailService _mailService;
+    private readonly CitiesDataStore _citiesDataStore;
 
     public PointsOfInterestController(
         ILogger<PointsOfInterestController> logger,
-        IMailService mailService)
+        IMailService mailService,
+        CitiesDataStore citiesDataStore)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
+        _citiesDataStore = citiesDataStore ?? throw new ArgumentNullException(nameof(citiesDataStore));
     }
     
     [HttpGet]
@@ -25,7 +28,7 @@ public class PointsOfInterestController : ControllerBase
     {
         try
         {
-            var city = CitiesDataStore.Current.Cities
+            var city = _citiesDataStore.Cities
                 .FirstOrDefault(city => city.Id == cityId);
 
             if (city == null)
@@ -53,7 +56,7 @@ public class PointsOfInterestController : ControllerBase
     [HttpGet("{pointOfInterestId}", Name = "GetPointOfInterest")]
     public ActionResult<PointOfInterestDto> GetPointOfInterest(int cityId, int pointOfInterestId)
     {
-        var city = CitiesDataStore.Current.Cities
+        var city = _citiesDataStore.Cities
             .FirstOrDefault(city => city.Id == cityId);
 
         if (city == null)
@@ -86,7 +89,7 @@ public class PointsOfInterestController : ControllerBase
         //     return BadRequest();
         // }
         
-        var city = CitiesDataStore.Current.Cities.FirstOrDefault(
+        var city = _citiesDataStore.Cities.FirstOrDefault(
             city => city.Id == cityId);
         if (city == null)
         {
@@ -96,7 +99,7 @@ public class PointsOfInterestController : ControllerBase
         // For demo purposes, it will be changed.
         // In a real app, this would slow down performance & might generate two identical IDs if two users make a request at the same time.
         // It finds the max ID of the current points of interest.
-        var maxPointOfInterestId = CitiesDataStore.Current.Cities.SelectMany(
+        var maxPointOfInterestId = _citiesDataStore.Cities.SelectMany(
             city => city.PointsOfInterest).Max(point => point.Id);
 
         var finalPointOfInterest = new PointOfInterestDto()
@@ -126,7 +129,7 @@ public class PointsOfInterestController : ControllerBase
         int pointOfInterestId,
         PointOfInterestForUpdateDto pointOfInterestForUpdateDto)
     {
-        var city = CitiesDataStore.Current.Cities.FirstOrDefault(
+        var city = _citiesDataStore.Cities.FirstOrDefault(
             city => city.Id == cityId);
         
         if (city == null)
@@ -154,7 +157,7 @@ public class PointsOfInterestController : ControllerBase
         int pointOfInterestId,
         JsonPatchDocument<PointOfInterestForUpdateDto> patchDocument)
     {
-        var city = CitiesDataStore.Current.Cities
+        var city = _citiesDataStore.Cities
             .FirstOrDefault(city => city.Id == cityId);
         if (city == null)
         {
@@ -196,7 +199,7 @@ public class PointsOfInterestController : ControllerBase
     public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
     {
         
-        var city = CitiesDataStore.Current.Cities
+        var city = _citiesDataStore.Cities
             .FirstOrDefault(city => city.Id == cityId);
         if (city == null)
         {
