@@ -29,7 +29,11 @@ builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 // .AddTransient() -> Transient lifetime services are created each time they are requested. Works best for lightweight stateless services.
 // .AddScoped() -> Scoped lifetime services are created once per request.
 // .AddSingleton() -> Singleton lifetime services are created the first time they're requested.
-builder.Services.AddTransient<LocalMailService>();
+#if DEBUG
+builder.Services.AddTransient<IMailService, LocalMailService>();
+#else 
+builder.Services.AddTransient<IMailService, CloudMailService>();
+#endif
 
 var app = builder.Build();
 
