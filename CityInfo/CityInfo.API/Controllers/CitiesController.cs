@@ -29,6 +29,7 @@ public class CitiesController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities));
     }
 
+    // Example http://localhost:5153/api/cities/2?includePointsOfInterest=true
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCity(int id, bool includePointsOfInterest = false)
     {
