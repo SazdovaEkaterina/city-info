@@ -13,9 +13,19 @@ public interface ICityInfoRepository
     // A city may not be found, so the result is nullable.
     Task<City?> GetCityAsync(int cityId, bool includePointsOfInterest);
 
+    Task<bool> CityExistsAsync(int cityId);
+
     Task<IEnumerable<PointOfInterest>> GetPointsOfInterestForCityAsync(int cityId);
 
     Task<PointOfInterest?> GetPointOfInterestForCityAsync(
         int cityId,
         int pointOfInterestId);
+    
+    Task<bool> SaveChangesAsync();
+
+    // It is not an I/O operation, just a memory one so an async Task doesn't make sense.
+    void DeletePointOfInterest(PointOfInterest pointOfInterest);
+    
+    // This isn't an I/O operation either, but because we call Get for the added entity we need async.
+    Task AddPointOfInterestForCityAsync(int cityId, PointOfInterest pointOfInterest);
 }
