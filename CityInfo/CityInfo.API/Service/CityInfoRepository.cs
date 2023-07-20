@@ -18,14 +18,12 @@ public class CityInfoRepository : ICityInfoRepository
         return await _context.Cities.OrderBy(city => city.Name).ToListAsync();
     }
 
-    public async Task<IEnumerable<City>> GetCitiesAsync(string? name, string? searchQuery)
+    public async Task<IEnumerable<City>> GetCitiesAsync(
+        string? name, 
+        string? searchQuery,
+        int pageNumber,
+        int pageSize)
     {
-        if (string.IsNullOrEmpty(name) && string.IsNullOrWhiteSpace(searchQuery))
-        {
-            // Ako nema vrednost za prebaruvanje, vrati gi site.
-            return await GetCitiesAsync();
-        }
-        
         // Collection to start from.
         var collection = _context.Cities as IQueryable<City>;
 
@@ -49,6 +47,8 @@ public class CityInfoRepository : ICityInfoRepository
         // Returns the collection that has been filtered by both name and searchQuery.
         return await collection
             .OrderBy(city => city.Name)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
             .ToListAsync();
     }
 
