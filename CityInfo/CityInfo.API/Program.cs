@@ -1,6 +1,5 @@
 using CityInfo.API;
 using CityInfo.API.DbContexts;
-using CityInfo.API.Repository;
 using CityInfo.API.Service;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;

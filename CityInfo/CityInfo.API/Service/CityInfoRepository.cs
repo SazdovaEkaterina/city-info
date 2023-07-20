@@ -2,7 +2,7 @@ using CityInfo.API.DbContexts;
 using CityInfo.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CityInfo.API.Repository;
+namespace CityInfo.API.Service;
 
 public class CityInfoRepository : ICityInfoRepository
 {

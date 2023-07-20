@@ -1,7 +1,6 @@
 using AutoMapper;
 using CityInfo.API.Entities;
 using CityInfo.API.Models;
-using CityInfo.API.Repository;
 using CityInfo.API.Service;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;

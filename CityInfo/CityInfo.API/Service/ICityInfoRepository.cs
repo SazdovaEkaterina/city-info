@@ -1,6 +1,6 @@
 using CityInfo.API.Entities;
 
-namespace CityInfo.API.Repository;
+namespace CityInfo.API.Service;
 
 public interface ICityInfoRepository
 {
