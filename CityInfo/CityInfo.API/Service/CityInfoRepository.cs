@@ -18,6 +18,40 @@ public class CityInfoRepository : ICityInfoRepository
         return await _context.Cities.OrderBy(city => city.Name).ToListAsync();
     }
 
+    public async Task<IEnumerable<City>> GetCitiesAsync(string? name, string? searchQuery)
+    {
+        if (string.IsNullOrEmpty(name) && string.IsNullOrWhiteSpace(searchQuery))
+        {
+            // Ako nema vrednost za prebaruvanje, vrati gi site.
+            return await GetCitiesAsync();
+        }
+        
+        // Collection to start from.
+        var collection = _context.Cities as IQueryable<City>;
+
+        // Filters the collection by name if it's specified.
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            name = name.Trim();
+            collection = collection.Where(city => city.Name == name);
+        }
+
+        // Filters the collection by searchQuery if it's specified.
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            searchQuery = searchQuery.Trim();
+            collection = collection
+                .Where(city => city.Name.Contains(searchQuery)
+                        || (city.Description != null 
+                            && city.Description.Contains(searchQuery)));
+        }
+
+        // Returns the collection that has been filtered by both name and searchQuery.
+        return await collection
+            .OrderBy(city => city.Name)
+            .ToListAsync();
+    }
+
     public async Task<City?> GetCityAsync(int cityId, bool includePointsOfInterest)
     {
         if (includePointsOfInterest)

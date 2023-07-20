@@ -10,6 +10,8 @@ public interface ICityInfoRepository
     // Using async so we can free up more threads.
     Task<IEnumerable<City>> GetCitiesAsync();
     
+    Task<IEnumerable<City>> GetCitiesAsync(string? name, string? searchQuery);
+    
     // A city may not be found, so the result is nullable.
     Task<City?> GetCityAsync(int cityId, bool includePointsOfInterest);
 
