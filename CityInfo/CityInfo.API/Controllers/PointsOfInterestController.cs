@@ -10,7 +10,9 @@ namespace CityInfo.API.Controllers;
 
 [ApiController]
 // [Authorize(Policy="MustBefromAntwerp")]
-[Route("/api/cities/{cityId}/points-of-interest")]
+// The points of interest endpoints will only be supported by version 2.
+[ApiVersion("2.0")]
+[Route("/api/v{version:apiVersion}/cities/{cityId}/points-of-interest")]
 public class PointsOfInterestController : ControllerBase
 {
     private readonly ILogger<PointsOfInterestController> _logger;

@@ -11,7 +11,10 @@ namespace CityInfo.API.Controllers;
 
 [ApiController]
 // [Authorize]
-[Route("api/cities")]
+// The cities endpoints will be supported by both version 1 and version 2.
+[ApiVersion("1.0")]
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/cities")]
 public class CitiesController : ControllerBase
 {
     private readonly ICityInfoRepository _cityInfoRepository;
