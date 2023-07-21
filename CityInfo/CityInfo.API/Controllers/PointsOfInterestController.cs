@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CityInfo.API.Controllers;
 
 [ApiController]
-// [Authorize(Policy="MustBefromAntwerp")]
+[Authorize(Policy="MustBefromAntwerp")]
 // The points of interest endpoints will only be supported by version 2.
 [ApiVersion("2.0")]
 [Route("/api/v{version:apiVersion}/cities/{cityId}/points-of-interest")]

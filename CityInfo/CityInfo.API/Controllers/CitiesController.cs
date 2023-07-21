@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CityInfo.API.Controllers;
 
 [ApiController]
-// [Authorize]
+[Authorize]
 // The cities endpoints will be supported by both version 1 and version 2.
 [ApiVersion("1.0")]
 [ApiVersion("2.0")]
