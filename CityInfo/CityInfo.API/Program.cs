@@ -26,6 +26,7 @@ builder.Services.AddControllers(options =>
 }).AddNewtonsoftJson()
 .AddXmlDataContractSerializerFormatters();
 
+// It had already been added automatically here:
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -92,6 +93,7 @@ builder.Services.AddApiVersioning(setupAction =>
 
 var app = builder.Build();
 
+// Swagger setup.
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
