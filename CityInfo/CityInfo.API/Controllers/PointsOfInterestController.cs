@@ -38,6 +38,14 @@ public class PointsOfInterestController : ControllerBase
     public async Task<ActionResult<IEnumerable<PointOfInterestDto>>> GetPointsOfInterest(
         int cityId)
     {
+        // Only users who live in the city can see it's points of interest.
+        var cityName = User.Claims.FirstOrDefault(
+            city => city.Type == "city")?.Value;
+        if (!await _cityInfoRepository.CityNameMatchesCityId(cityName, cityId))
+        {
+            return Forbid();
+        }
+        
         if (!await _cityInfoRepository.CityExistsAsync(cityId))
         {
             _logger.LogInformation(

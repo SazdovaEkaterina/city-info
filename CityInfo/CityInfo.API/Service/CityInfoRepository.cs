@@ -105,6 +105,12 @@ public class CityInfoRepository : ICityInfoRepository
         }
     }
 
+    public async Task<bool> CityNameMatchesCityId(string? cityName, int cityId)
+    {
+        return await _context.Cities.AnyAsync(
+            city => city.Id == cityId && city.Name == cityName);
+    }
+
     public async Task<bool> SaveChangesAsync()
     {
         return (await _context.SaveChangesAsync() >= 0);

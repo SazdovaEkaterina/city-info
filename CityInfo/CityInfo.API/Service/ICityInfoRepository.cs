@@ -30,4 +30,6 @@ public interface ICityInfoRepository
     
     // This isn't an I/O operation either, but because we call Get for the added entity we need async.
     Task AddPointOfInterestForCityAsync(int cityId, PointOfInterest pointOfInterest);
+
+    Task<bool> CityNameMatchesCityId(string? cityName, int cityId);
 }
